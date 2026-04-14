@@ -72,10 +72,9 @@ class GameViewModel : ViewModel() {
             // User's guess is correct, increase the score
             // and call updateGameState() to prepare the game for next round
             val updatedScore = _uiState.value.score.plus(SCORE_INCREASE)
-            updateGameState(updatedScore)
-            val roundNo = _uiState.value.currentWordCount
-            val historyLog = "No.$roundNo : Benar ($currentWord)"
-            val newHistory = _uiState.value.guessHistory.plus(historyLog)
+            val currentRound = _uiState.value.currentWordCount
+            val historyItem = " No.$currentRound : Benar ($currentWord)"
+            val newHistory = _uiState.value.guessHistory + historyItem
 
         } else {
             // User's guess is wrong, show an error
@@ -91,10 +90,10 @@ class GameViewModel : ViewModel() {
      * Skip to next word
      */
     fun skipWord() {
-        val roundNo = _uiState.value.currentWordCount
-        val historyLog = "No.$roundNo : Dilewati ($currentWord)"
-        val newHistory = _uiState.value.guessHistory.plus(historyLog)
-        updateGameState(_uiState.value.score)
+        val currentRound = _uiState.value.currentWordCount
+        val historyItem = " No.$currentRound : Dilewati (Jawaban: $currentWord)"
+        val newHistory = _uiState.value.guessHistory + historyItem
+        updateGameState(_uiState.value.score, newHistory)
         // Reset user guess
         updateUserGuess("")
     }
@@ -103,7 +102,7 @@ class GameViewModel : ViewModel() {
      * Picks a new currentWord and currentScrambledWord and updates UiState according to
      * current game state.
      */
-    private fun updateGameState(updatedScore: Int,updatedHistory: List<String> = _uiState.value.guessHistory) {
+    private fun updateGameState(updatedScore: Int, newHistory: List<String>) {
         if (usedWords.size == MAX_NO_OF_WORDS){
             //Last round in the game, update isGameOver to true, don't pick a new word
             _uiState.update { currentState ->
@@ -111,7 +110,7 @@ class GameViewModel : ViewModel() {
                     isGuessedWordWrong = false,
                     score = updatedScore,
                     isGameOver = true,
-                    guessHistory = updatedHistory
+                    guessHistory = newHistory
                 )
             }
         } else{
@@ -122,7 +121,7 @@ class GameViewModel : ViewModel() {
                     currentScrambledWord = pickRandomWordAndShuffle(),
                     currentWordCount = currentState.currentWordCount.inc(),
                     score = updatedScore,
-                    guessHistory = updatedHistory
+                    guessHistory = newHistory
                 )
             }
         }

@@ -20,6 +20,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -243,11 +244,22 @@ private fun FinalScoreDialog(
                     modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
                 )
 
-                if (guessHistory.isEmpty()) {
-                    Text(text = "- Tidak ada riwayat")
-                } else {
-                    guessHistory.forEach { historyText ->
-                        Text(text = historyText)
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 200.dp) // Membatasi tinggi agar popup tidak kepanjangan
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    if (guessHistory.isEmpty()) {
+                        Text(text = "- Tidak ada riwayat")
+                    } else {
+                        guessHistory.forEach { historyText ->
+                            Text(
+                                text = historyText,
+                                fontSize = 14.sp,
+                                modifier = Modifier.padding(vertical = 4.dp)
+                            )
+                        }
                     }
                 }
             }
