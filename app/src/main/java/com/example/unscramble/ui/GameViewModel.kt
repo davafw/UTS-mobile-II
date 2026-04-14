@@ -91,6 +91,9 @@ class GameViewModel : ViewModel() {
      * Skip to next word
      */
     fun skipWord() {
+        val roundNo = _uiState.value.currentWordCount
+        val historyLog = "No.$roundNo : Dilewati ($currentWord)"
+        val newHistory = _uiState.value.guessHistory.plus(historyLog)
         updateGameState(_uiState.value.score)
         // Reset user guess
         updateUserGuess("")

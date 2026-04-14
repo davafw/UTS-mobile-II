@@ -84,7 +84,6 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
             onKeyboardDone = { gameViewModel.checkUserGuess() },
             currentScrambledWord = gameUiState.currentScrambledWord,
             isGuessWrong = gameUiState.isGuessedWordWrong,
-            histori = gameUiState.histori,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
@@ -124,8 +123,8 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
         if (gameUiState.isGameOver) {
             FinalScoreDialog(
                 score = gameUiState.score,
-                onPlayAgain = { gameViewModel.resetGame() },
-                histori = {}
+                guessHistory = gameUiState.guessHistory,
+                onPlayAgain = { gameViewModel.resetGame() }
             )
         }
     }
@@ -221,7 +220,7 @@ fun GameLayout(
 @Composable
 private fun FinalScoreDialog(
     score: Int,
-    histori: () -> Unit,
+    guessHistory: List<String>,
     onPlayAgain: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -234,7 +233,25 @@ private fun FinalScoreDialog(
             // onCloseRequest.
         },
         title = { Text(text = stringResource(R.string.congratulations)) },
-        text = { Text(text = stringResource(R.string.you_scored, score)) },
+        text = {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Text(text = stringResource(R.string.you_scored, score))
+
+                Text(
+                    text = "\nRiwayat Permainan:",
+                    style = typography.titleMedium,
+                    modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                )
+
+                if (guessHistory.isEmpty()) {
+                    Text(text = "- Tidak ada riwayat")
+                } else {
+                    guessHistory.forEach { historyText ->
+                        Text(text = historyText)
+                    }
+                }
+            }
+        },
         modifier = modifier,
         dismissButton = {
             TextButton(
