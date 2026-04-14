@@ -75,7 +75,7 @@ class GameViewModel : ViewModel() {
             val currentRound = _uiState.value.currentWordCount
             val historyItem = " No.$currentRound : Benar ($currentWord)"
             val newHistory = _uiState.value.guessHistory + historyItem
-
+            updateGameState(updatedScore, newHistory)
         } else {
             // User's guess is wrong, show an error
             _uiState.update { currentState ->
