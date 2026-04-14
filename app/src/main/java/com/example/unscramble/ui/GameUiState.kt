@@ -24,5 +24,5 @@ data class GameUiState(
     val score: Int = 0,
     val isGuessedWordWrong: Boolean = false,
     val isGameOver: Boolean = false,
-    val histori: String = ""
+    val guessHistory: List<String> = emptyList()
 )

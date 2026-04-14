@@ -96,14 +96,15 @@ class GameViewModel : ViewModel() {
      * Picks a new currentWord and currentScrambledWord and updates UiState according to
      * current game state.
      */
-    private fun updateGameState(updatedScore: Int) {
+    private fun updateGameState(updatedScore: Int,updatedHistory: List<String> = _uiState.value.guessHistory) {
         if (usedWords.size == MAX_NO_OF_WORDS){
             //Last round in the game, update isGameOver to true, don't pick a new word
             _uiState.update { currentState ->
                 currentState.copy(
                     isGuessedWordWrong = false,
                     score = updatedScore,
-                    isGameOver = true
+                    isGameOver = true,
+                    guessHistory = updatedHistory
                 )
             }
         } else{
@@ -113,7 +114,8 @@ class GameViewModel : ViewModel() {
                     isGuessedWordWrong = false,
                     currentScrambledWord = pickRandomWordAndShuffle(),
                     currentWordCount = currentState.currentWordCount.inc(),
-                    score = updatedScore
+                    score = updatedScore,
+                    guessHistory = updatedHistory
                 )
             }
         }
