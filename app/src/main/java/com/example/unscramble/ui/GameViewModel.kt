@@ -73,6 +73,10 @@ class GameViewModel : ViewModel() {
             // and call updateGameState() to prepare the game for next round
             val updatedScore = _uiState.value.score.plus(SCORE_INCREASE)
             updateGameState(updatedScore)
+            val roundNo = _uiState.value.currentWordCount
+            val historyLog = "No.$roundNo : Benar ($currentWord)"
+            val newHistory = _uiState.value.guessHistory.plus(historyLog)
+
         } else {
             // User's guess is wrong, show an error
             _uiState.update { currentState ->
@@ -142,7 +146,5 @@ class GameViewModel : ViewModel() {
             shuffleCurrentWord(currentWord)
         }
     }
-    fun histori(): String {
 
-    }
 }
