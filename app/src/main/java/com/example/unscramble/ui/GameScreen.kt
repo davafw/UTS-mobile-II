@@ -84,6 +84,7 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
             onKeyboardDone = { gameViewModel.checkUserGuess() },
             currentScrambledWord = gameUiState.currentScrambledWord,
             isGuessWrong = gameUiState.isGuessedWordWrong,
+            histori = gameUiState.histori,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
