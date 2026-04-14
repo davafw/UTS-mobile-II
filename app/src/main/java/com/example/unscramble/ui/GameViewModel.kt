@@ -129,6 +129,7 @@ class GameViewModel : ViewModel() {
         return String(tempWord)
     }
 
+
     private fun pickRandomWordAndShuffle(): String {
         // Continue picking up a new random word until you get one that hasn't been used before
         currentWord = allWords.random()
@@ -138,5 +139,8 @@ class GameViewModel : ViewModel() {
             usedWords.add(currentWord)
             shuffleCurrentWord(currentWord)
         }
+    }
+    fun histori(): String {
+
     }
 }
